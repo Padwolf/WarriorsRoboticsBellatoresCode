@@ -10,7 +10,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 @TeleOp(name="Test Op")
 public class TestOpMode extends OpMode {
     HardwareHolonomic hardware;
-    private final double maxSpeed = 0.5;
+    private final double MAX_SPEED = 0.5;
+    private final double PRECISION_SPEED = 0.33;
+    
     @Override
     public void init() {
         hardware = new HardwareHolonomic(hardwareMap);
@@ -21,7 +23,8 @@ public class TestOpMode extends OpMode {
         double speed = Math.sqrt(Math.pow(gamepad1.right_stick_x, 2) +
                 Math.pow(gamepad1.right_stick_y, 2));
         double[] powers = calcWheelPowers(GenFuncs.constrain(gamepad1.right_stick_x, 1, -1),
-                GenFuncs.constrain(gamepad1.right_stick_y, 1, -1), gamepad1.left_stick_x, speed);
+                GenFuncs.constrain(gamepad1.right_stick_y, 1, -1),
+                gamepad1.right_trigger-gamepad1.left_trigger, speed);
         telemetry.addData("W0", powers[0]);
         telemetry.addData("W1", powers[1]);
         telemetry.addData("W2", powers[2]);
@@ -29,7 +32,13 @@ public class TestOpMode extends OpMode {
 
 
         for (int i = 0; i < powers.length; i++) {
-            powers[i] *= maxSpeed;
+            powers[i] *= MAX_SPEED;
+        }
+
+        if (gamepad1.right_stick_button) {
+            for (int i = 0; i < powers.length; i++) {
+                powers[i] *= PRECISION_SPEED;
+            }
         }
 
         hardware.dnw.setPower(powers[0]);
