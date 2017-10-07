@@ -20,8 +20,8 @@ public class TestOpMode extends OpMode {
     public void loop() {
         double speed = Math.sqrt(Math.pow(gamepad1.right_stick_x, 2) +
                 Math.pow(gamepad1.right_stick_y, 2));
-        double[] powers = calcWheelPowers(gamepad1.right_stick_x, gamepad1.right_stick_y,
-                gamepad1.left_stick_x, speed);
+        double[] powers = calcWheelPowers(GenFuncs.constrain(gamepad1.right_stick_x, 1, -1),
+                GenFuncs.constrain(gamepad1.right_stick_y, 1, -1), gamepad1.left_stick_x, speed);
         telemetry.addData("W0", powers[0]);
         telemetry.addData("W1", powers[1]);
         telemetry.addData("W2", powers[2]);
