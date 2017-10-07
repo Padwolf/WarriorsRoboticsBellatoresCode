@@ -26,4 +26,4 @@ of time playing around with the robot. We were also pleasanty surprised to find
 that it could occasionally get up on the balance pads. We plan to add something
 like plates under the motor mounts, as we suspect that should enable it to get
 up on the ramp every time.
---------------------------------------------------------------------------------
+                                                                                |
